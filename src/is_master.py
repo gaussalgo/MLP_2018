@@ -4,13 +4,13 @@ import time
 # # Master start
 started = time.time()
 
-WORKERS = 4
+WORKERS = 3
 FOLDER = 'data/unique_1k_images/'
 
 # Launch two CDSW workers. These are engines that will run in 
 # the same project, execute a given code or script, and exit.
 print('Launch workers')
-workers = cdsw.launch_workers(n=WORKERS, cpu=1, memory=1, script="src/is_worker.py")
+workers = cdsw.launch_workers(n=WORKERS, cpu=1, memory=2, script="src/is_worker.py")
 
 
 # Listen on TCP port 6000

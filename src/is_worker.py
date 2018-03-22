@@ -47,26 +47,34 @@ my_files = all_files[start_idx: end_idx]
 print('%d: My files: %s ...' % (cfg['worker_id'], (', '.join(my_files))[:100]))
 print('%d: loading model' % cfg['worker_id'])
 
+
+def log_progress(info):
+    with open('data/my_log_%d_%d.log' % (cfg['worker_id'], cfg['workers']), 'a') as f:
+        f.write('%s\n' % info)
+
 # # Create metafeature vectors from images or skip it if present
 image_vectors_file = 'data/image_vectors_%02d-%02d.pkl' % (cfg['worker_id'], cfg['workers'])
-if not os.path.isfile(image_vectors_file):
-    # ## Load ResNet50 neural network model
-    # Do not load top classification layer but use lower layer for creating embedding
-    model = ResNet50(weights='imagenet', include_top=False)
+try:
+    if not os.path.isfile(image_vectors_file):
+        # ## Load ResNet50 neural network model
+        # Do not load top classification layer but use lower layer for creating embedding
+        model = ResNet50(weights='imagenet', include_top=False)
 
-    embedding = []
-    file_paths = []
-    for filename in tqdm(my_files, desc='worker %d' % cfg['worker_id'], position=cfg['worker_id']):
-        embedding.append(is_utils.img_path_to_metafeatures(filename, model))
-        file_paths.append(filename)
+        embedding = []
+        file_paths = []
+        for filename in tqdm(my_files, desc='worker %d' % cfg['worker_id'], position=cfg['worker_id'], mininterval=2.0):
+            log_progress(filename)
+            embedding.append(is_utils.img_path_to_metafeatures(filename, model))
+            file_paths.append(filename)
 
-    with open(image_vectors_file, 'wb') as f:
-        data = {
-            'embedding': embedding,
-            'file_paths': file_paths,
-        }
-        pickle.dump(data, f)
-
+        with open(image_vectors_file, 'wb') as f:
+            data = {
+                'embedding': embedding,
+                'file_paths': file_paths,
+            }
+            pickle.dump(data, f)
+except Exception as e:
+    log_progress(str(e))
         
 # Open a TCP connection to the master and send my result.
 _ = send_and_receive({'worker_id': cfg['worker_id'], 'filename': image_vectors_file, 'type': 'finished'})
