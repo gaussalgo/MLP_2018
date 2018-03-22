@@ -14,7 +14,7 @@ FOLDER = 'data/unique_1k_images/'
 # Launch two CDSW workers. These are engines that will run in 
 # the same project, execute a given code or script, and exit.
 print('Launch workers')
-workers = cdsw.launch_workers(n=WORKERS, cpu=1, memory=2, script="src/is_worker.py")
+workers = cdsw.launch_workers(n=WORKERS, cpu=1, memory=2, script="src/03_02_is_worker.py")
 
 
 # Listen on TCP port 6000

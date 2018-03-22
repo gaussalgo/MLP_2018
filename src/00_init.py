@@ -3,7 +3,7 @@
 # ## Install requirements
 !pip install --upgrade pip
 !pip install -r requirements.txt
-# !pip install -r requirements.txt --upgrade --ignore-installed
+!pip install -r requirements.txt --upgrade --ignore-installed
 
 
 # ## Download imges from s3 and unpack them to data folder
@@ -13,7 +13,13 @@
 # aws_secret_access_key = YOUR_SECRET_KEY
 #
 import boto3
+import os
 
+try:
+    os.mkdir('data')
+except OSError:
+    pass
+  
 s3 = boto3.resource('s3') 
 
 # Download images from s3
