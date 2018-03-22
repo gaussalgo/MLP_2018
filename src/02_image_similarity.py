@@ -1,11 +1,9 @@
 # # Image similarity
-# for python 3 first run:
-# !pip3 install --upgrade pip
-# !pip3 install -r requirements.txt
-# for python 2 first run:
-# # ! pip2 install -r requirements.txt --upgrade --ignore-installed
-# !pip install --upgrade pip
-# !pip install -r requirements.txt
+# - Use the same pretrained neural network as in the previous task
+# - Instead of classification use network to transform image into a vector of descriptive metafeatures
+# - Property: the closer vectors the more similar images
+# - Transform a set of images and index them for similarity queries
+# - Use the structure for finding similar images
 
 # imports
 import os
@@ -82,4 +80,4 @@ def find_similar_images(image_path, n=5):
 
 
 ### Find top 5 closest images
-find_similar_images('data/unique_1k_images/000089.jpg', n=5)
+find_similar_images('data/unique_1k_images/000088.jpg', n=5)

@@ -1,6 +1,7 @@
-# Simple image clasification with pretrained model
-# ---
-# first run !pip3 install -r requirements.txt
+# # Simple image clasification
+# - Loads pretrained neural network model (ResNet50) from Keras repository
+# - Load and preprocess image
+# - Classify the image into one of thousand cateories
 
 # catch some keras's future warnings 
 import warnings
@@ -13,13 +14,13 @@ from keras.preprocessing import image
 import numpy as np
 from IPython.core.display import display
 
-# load resnet model (downloads data from repository)
+# ## load resnet model (downloads data from repository)
 model = ResNet50(weights='imagenet')
 
-# Expected image size
+# Expected image size:
 model.input_shape
 
-# Helper functions for image-calssification
+# ## Helper functions for image-classification
 def classify_image(img, info):
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
@@ -50,8 +51,9 @@ def load_and_classify(img_path):
     classify_image(resized_image, 'Resized to %s' % str(target_size))
     classify_image(cropped_image, 'Cropped to %s' % str(target_size))
 
-# Example predictions
+# Example predictions 1
 load_and_classify(img_path = 'data/unique_1k_images/000001.jpg')
 
-# Example predictions
+# Example predictions 2
 load_and_classify(img_path = 'data/unique_1k_images/000002.jpg')
+

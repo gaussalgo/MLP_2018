@@ -1,3 +1,7 @@
+# # Simple parallelization of image-to-vector task
+# - time-consuming operation of image transformation to vector can be speed-up via cloudera workers
+# - master script (03_01_is_master.py) triggers several worker threads (03_02)is_worker.py), divide work and collect results
+
 import cdsw, socket, json, pickle
 import time
 
