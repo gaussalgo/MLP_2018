@@ -48,7 +48,7 @@ print('%d: My files: %s ...' % (cfg['worker_id'], (', '.join(my_files))[:100]))
 print('%d: loading model' % cfg['worker_id'])
 
 # # Create metafeature vectors from images or skip it if present
-image_vectors_file = 'data/image_vectors_%02d.pkl' % cfg['worker_id']
+image_vectors_file = 'data/image_vectors_%02d-%02d.pkl' % (cfg['worker_id'], cfg['workers'])
 if not os.path.isfile(image_vectors_file):
     # ## Load ResNet50 neural network model
     # Do not load top classification layer but use lower layer for creating embedding
@@ -56,7 +56,7 @@ if not os.path.isfile(image_vectors_file):
 
     embedding = []
     file_paths = []
-    for filename in tqdm(my_files, desc='worker %d' % cfg['worker_id'], mininterval=2.0, position=cfg['worker_id']):
+    for filename in tqdm(my_files, desc='worker %d' % cfg['worker_id'], position=cfg['worker_id']):
         embedding.append(is_utils.img_path_to_metafeatures(filename, model))
         file_paths.append(filename)
 
